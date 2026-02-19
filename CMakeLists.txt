@@ -10,26 +10,31 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-# Add talker executable
+# talker executable
 add_executable(talker src/talker.cpp)
 ament_target_dependencies(talker rclcpp std_msgs)
 
-# Add listener executable
+# listener executable
 add_executable(listener src/listener.cpp)
 ament_target_dependencies(listener rclcpp std_msgs)
 
 # Install executables
-install(TARGETS talker listener
+install(TARGETS
+  talker
+  listener
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# TODO: Install the launch directory
-# install(DIRECTORY launch
-#   DESTINATION share/${PROJECT_NAME}
-# )
+# Install launch files
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
+  set(ament_cmake_copyright_FOUND TRUE)
+  set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 

@@ -3,16 +3,12 @@
 <package format="3">
   <name>ros2_launch_demo</name>
   <version>0.0.0</version>
-  <description>Assignment: ROS2 Launch Files</description>
-  <maintainer email="student@university.edu">Student Name</maintainer>
+  <description>ROS2 launch file demo with talker + listener + parameter</description>
+  <maintainer email="you@example.com">Your Name</maintainer>
   <license>Apache-2.0</license>
-
-  <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
-
-  <exec_depend>ros2launch</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
