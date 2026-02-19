@@ -1,5 +1,4 @@
 #include <chrono>
-#include <functional>
 #include <memory>
 #include <string>
 
@@ -18,24 +17,16 @@ public:
     this->declare_parameter<std::string>("message_prefix", "Hello");
 
     publisher_ = this->create_publisher<std_msgs::msg::String>("chatter", 10);
-
     timer_ = this->create_wall_timer(
       500ms, std::bind(&Talker::timer_callback, this));
-
-    RCLCPP_INFO(this->get_logger(), "Talker node started");
   }
 
 private:
   void timer_callback()
   {
     auto message = std_msgs::msg::String();
-    
-    // Get the current value of the parameter
-    std::string prefix;
-    this->get_parameter("message_prefix", prefix);
-
+    std::string prefix = this->get_parameter("message_prefix").as_string();
     message.data = prefix + ": " + std::to_string(count_++);
-
     RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
     publisher_->publish(message);
   }

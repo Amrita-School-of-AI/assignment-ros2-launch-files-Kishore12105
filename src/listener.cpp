@@ -3,6 +3,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
+using std::placeholders::_1;
+
 class Listener : public rclcpp::Node
 {
 public:
@@ -10,16 +12,13 @@ public:
   : Node("listener")
   {
     subscription_ = this->create_subscription<std_msgs::msg::String>(
-      "chatter", 10,
-      std::bind(&Listener::topic_callback, this, std::placeholders::_1));
-
-    RCLCPP_INFO(this->get_logger(), "Listener node started");
+      "chatter", 10, std::bind(&Listener::topic_callback, this, _1));
   }
 
 private:
-  void topic_callback(const std_msgs::msg::String::SharedPtr msg) const
+  void topic_callback(const std_msgs::msg::String & msg) const
   {
-    RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg->data.c_str());
+    RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg.data.c_str());
   }
 
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;

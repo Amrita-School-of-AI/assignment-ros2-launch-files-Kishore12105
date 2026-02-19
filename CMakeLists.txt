@@ -10,36 +10,26 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-# === Executables ===
-
+# talker executable
 add_executable(talker src/talker.cpp)
-ament_target_dependencies(talker
-  rclcpp
-  std_msgs
-)
+ament_target_dependencies(talker rclcpp std_msgs)
 
+# listener executable
 add_executable(listener src/listener.cpp)
-ament_target_dependencies(listener
-  rclcpp
-  std_msgs
-)
+ament_target_dependencies(listener rclcpp std_msgs)
 
-# === Install targets ===
-
+# Install executables
 install(TARGETS
   talker
   listener
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# === Install launch files ===
-
+# Install launch files
 install(DIRECTORY
-  launch/
+  launch
   DESTINATION share/${PROJECT_NAME}/
 )
-
-# === Testing ===
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
