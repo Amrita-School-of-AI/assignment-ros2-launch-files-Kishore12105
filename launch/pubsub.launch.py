@@ -1,23 +1,33 @@
+#!/usr/bin/env python3
+
 from launch import LaunchDescription
 from launch_ros.actions import Node
-
-"""
-TODO: Complete this launch file to:
-1. Launch the 'talker' node from package 'ros2_launch_demo' with:
-   - Parameter 'message_prefix' set to 'ROS2'
-2. Launch the 'listener' node from package 'ros2_launch_demo'
-
-Hint: Use Node() action with:
-- package='ros2_launch_demo'
-- executable='talker' or 'listener'
-- parameters=[{'message_prefix': 'ROS2'}] for talker
-"""
+from launch.substitutions import TextSubstitution
 
 
-def generate_launch_description():
-    return LaunchDescription(
-        [
-            # TODO: Add talker node with message_prefix parameter
-            # TODO: Add listener node
-        ]
-    )
+def generate_launch_description() -> LaunchDescription:
+    # You can also use parameter dictionaries or YAML files
+    talker_params = {
+        'message_prefix': 'ROS2'
+        # You could add more parameters here if needed
+    }
+
+    return LaunchDescription([
+        Node(
+            package='ros2_launch_demo',
+            executable='talker',
+            name='talker',
+            namespace='',               # default global namespace
+            output='screen',
+            parameters=[talker_params],
+            # remappings=[('/chatter', '/my_chatter')]  # ← only if you want to change topic
+        ),
+
+        Node(
+            package='ros2_launch_demo',
+            executable='listener',
+            name='listener',
+            output='screen',
+            # remappings=[('/chatter', '/my_chatter')]  # must match talker if remapped
+        )
+    ])
